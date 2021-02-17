@@ -1,0 +1,13 @@
+---
+
+ - name: translate postalcode
+   uri:
+     url: "https://public.opendatasoft.com/api/records/1.0/search/?dataset=georef-germany-postleitzahl&q=&facet=note&facet=plz_code&refine.plz_code={{ postalcode }}"
+     method: GET
+     headers:
+       Accept: application/json
+     return_content: yes
+     #body_format: json
+     status_code: 200
+   register: result
+ - debug: "msg={{ result['json']['records'][0]['fields']['plz_name'] }}"

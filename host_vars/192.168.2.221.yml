@@ -1,0 +1,10 @@
+---
+
+locations:
+  - echo
+  - foo
+  - bar
+
+alias: /var/www/html
+
+

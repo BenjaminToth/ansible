@@ -1,0 +1,23 @@
+---
+
+- name: debugging
+  ansible.builtin.shell: ls /NON    
+  register: lserror
+  ignore_errors: True
+
+
+- name: Create a directory
+  file:
+    path: error-debugging
+    state: directory
+  delegate_to: localhost
+  when: errorlocation is undefined
+
+- name: Create a directory
+  file:
+    path: '{{ errorlocation }}'
+    state: directory
+  delegate_to: localhost
+  when: errorlocation is defined
+
+- local_action: copy content='{{ lserror }}' dest='{{ errorlocation | default("~/ansible/error-debugging/error.log") }}'

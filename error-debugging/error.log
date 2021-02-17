@@ -1,0 +1,1 @@
+{"stderr_lines": ["ls: cannot access '/NON': No such file or directory"], "changed": true, "end": "2021-02-17 13:41:38.276542", "stdout": "", "cmd": "ls /NON", "rc": 2, "failed": true, "stderr": "ls: cannot access '/NON': No such file or directory", "delta": "0:00:00.002954", "msg": "non-zero return code", "stdout_lines": [], "start": "2021-02-17 13:41:38.273588"}

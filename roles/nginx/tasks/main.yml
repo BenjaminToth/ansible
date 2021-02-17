@@ -1,0 +1,45 @@
+---
+- name: "loop through list"
+  debug:
+    msg: "Location: {{ item }}"
+  with_items:
+    - "{{ locations }}"
+
+- name: copy Nginx Template
+  become: yes
+  ansible.builtin.template:
+    src: roles/nginx/templates/nginx.j2
+    dest: /etc/nginx/sites-enabled/default
+    mode: '0644'
+
+
+
+- name: Change ownership to www-data
+  ansible.builtin.file:
+    state: directory
+    path: '{{ alias }}/{{ item }}'
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  become: yes
+  loop: '{{ locations }}'
+
+- name: copy index template
+  become: yes
+  ansible.builtin.template:
+    src: roles/nginx/templates/index.j2
+    dest: '{{ alias }}/{{ item }}/index.html'
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+  loop: '{{ locations }}'
+
+
+
+- name: Reload service httpd, in all cases
+  ansible.builtin.systemd:
+    name: nginx
+    state: reloaded
+  become: yes
+
